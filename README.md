@@ -1570,7 +1570,7 @@ kubectl logs my-pod -c my-container
 **Examples:**
 
 - Adding a description to a Deployment:  `annotations: {"description": "Deployment for the frontend application"}`
-- Instructing a deployment tool:  `annotations: {"kubernetes.io/ingress.class": "nginx"}`
+- Setting the Ingress class (legacy annotation, deprecated in 1.18):  `annotations: {"kubernetes.io/ingress.class": "nginx"}` - prefer the `spec.ingressClassName: nginx` field on the Ingress resource itself
 
 **Documentation:** [https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
 
@@ -2373,9 +2373,9 @@ spec:
    kind: StorageClass
    metadata:
      name: fast-storage
-   provisioner: kubernetes.io/aws-ebs # Example using AWS EBS
+   provisioner: ebs.csi.aws.com # AWS EBS CSI driver (the in-tree provisioner was removed in 1.26)
    parameters:
-     type: gp2
+     type: gp3
      fsType: ext4
    ```
 
@@ -2530,7 +2530,7 @@ spec:
 
 **Documentation:**
 
-- Host Networking: [https://kubernetes.io/docs/concepts/policy/pod-security-policy/#host-namespaces](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#host-namespaces)
+- Host Networking: [https://kubernetes.io/docs/concepts/security/pod-security-admission/](https://kubernetes.io/docs/concepts/security/pod-security-admission/)
 - Multus CNI: [https://github.com/intel/multus-cni](https://github.com/intel/multus-cni)
 
 ### 109.  What is a Kubernetes Admission Controller, and describe its role in cluster security.
@@ -2558,7 +2558,7 @@ spec:
 
 - `LimitRanger`
 - `ResourceQuota`
-- `PodSecurityPolicy` (deprecated in Kubernetes 1.25)
+- `PodSecurityPolicy` (removed in Kubernetes 1.25, replaced by Pod Security Admission)
 - `ImagePolicyWebhook`
 
 **Documentation:** [https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/)
@@ -3188,7 +3188,7 @@ spec:
 1. **Create an HPA:** Define an HPA resource that targets your Deployment and specifies the scaling metrics (e.g., CPU utilization) and thresholds.
 
    ```yaml
-   apiVersion: autoscaling/v2beta2
+   apiVersion: autoscaling/v2
    kind: HorizontalPodAutoscaler
    metadata:
      name: my-deployment-hpa
