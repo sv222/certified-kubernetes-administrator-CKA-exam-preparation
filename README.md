@@ -1806,7 +1806,7 @@ spec:
 
 **Answer:**
 
-Use the `port` and `targetPort` fields in the Service definition. You can specify a range using a hyphen (`-`).
+A Service cannot expose a range of ports in a single entry - each entry in the `ports` array takes a single integer `port`, `targetPort`, and (for `NodePort`) `nodePort`. To expose multiple ports, list them as separate entries.
 
 **Example:**
 
@@ -1822,10 +1822,10 @@ spec:
   - name: http
     port: 8080 # External port (single port)
     targetPort: 80   # Target port on the Pod
-  - name: dynamic-ports
-    port: 2000  # Start of the port range
-    targetPort: 1000 # Target port on the Pod (start of the range)
-    nodePort: 30000 # Start of the NodePort range 
+  - name: https
+    port: 8443 # Another external port
+    targetPort: 443  # Target port on the Pod
+    nodePort: 30036 # NodePort for this entry (NodePort type only)
 ```
 
 **Explanation:**
@@ -2044,7 +2044,7 @@ Use the `imagePullPolicy` field in the container specification of your Deploymen
 **Image Pull Policies:**
 
 - **`Always`:**  Always pull the image from the registry, even if it exists locally.
-- **`IfNotPresent` (default):**  Pull the image only if it's not present locally.
+- **`IfNotPresent` (default for images with a specific tag):**  Pull the image only if it's not present locally. Note that when the tag is `:latest` or omitted, the default pull policy is `Always`.
 - **`Never`:** Never pull the image. Use only the local image, if available.
 
 **Example:**
@@ -2280,7 +2280,7 @@ spec:
 
 **Answer:**
 
-By default, Kubernetes Services use the "round-robin" load balancing algorithm. To change this, you can use the `externalTrafficPolicy` and  `service.spec.type` field in the Service definition.
+By default, kube-proxy forwards traffic to a randomly chosen ready endpoint (session affinity gives sticky sessions). The distribution behavior is determined by the kube-proxy mode (iptables, IPVS, or nftables), not by Service fields. The `externalTrafficPolicy` field only controls source-IP preservation (Local keeps the client IP, Cluster masks it), and `spec.type` selects how the Service is published.
 
 **Example (Using `LoadBalancer` type and `Local` traffic policy):**
 
