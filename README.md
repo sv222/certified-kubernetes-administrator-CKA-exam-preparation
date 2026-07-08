@@ -1005,7 +1005,7 @@ spec:
 
 **Documentation:**
 
-- etcd Backup and Restore: [https://etcd.io/docs/v3.4/op-guide/recovery/](https://etcd.io/docs/v3.4/op-guide/recovery/)
+- etcd Backup and Restore: [https://etcd.io/docs/v3.5/op-guide/recovery/](https://etcd.io/docs/v3.5/op-guide/recovery/)
 
 **Explanation:**  A comprehensive backup and restore strategy is essential for disaster recovery and protecting your applications and data in a Kubernetes environment.
 
@@ -1173,7 +1173,7 @@ While Kubernetes doesn't have built-in blue/green deployments, you can achieve i
 - When a disruption occurs, Kubernetes checks if the PDB's requirements are met before proceeding.
 - If not, the disruption might be delayed or blocked to maintain the desired availability.
 
-**Documentation:** [https://kubernetes.io/docs/concepts/policy/pod-disruption-budget/](https://kubernetes.io/docs/concepts/policy/pod-disruption-budget/)
+**Documentation:** [https://kubernetes.io/docs/concepts/workloads/pods/disruptions/](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/)
 
 **Explanation:** PDBs are essential for controlling the impact of disruptions, especially for applications where high availability is critical.
 
@@ -3258,7 +3258,7 @@ spec:
 - **Guaranteeing Minimum Availability for a Service:** Specify that a certain number of Pods for a critical service (e.g., a load balancer) must always be available.
 - **Controlling the Impact of Batch Jobs:** Limit the number of Pods from a batch processing job that can be disrupted, ensuring that processing continues even if some nodes are unavailable.
 
-**Documentation:** [https://kubernetes.io/docs/concepts/policy/pod-disruption-budget/](https://kubernetes.io/docs/concepts/policy/pod-disruption-budget/)
+**Documentation:** [https://kubernetes.io/docs/concepts/workloads/pods/disruptions/](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/)
 
 ### 135. How do you configure a Pod to restart automatically if it exits with an error in Kubernetes?
 
@@ -3491,8 +3491,8 @@ spec:
 
 **Documentation:**
 
-- `kubectl create`: [https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#create](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#create)
-- `kubectl apply`: [https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#apply](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#apply)
+- `kubectl create`: [https://kubernetes.io/docs/reference/kubectl/generated/kubectl_commands/](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_commands/)
+- `kubectl apply`: [https://kubernetes.io/docs/reference/kubectl/generated/kubectl_commands/](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_commands/)
 
 ### 143.  How do you implement a "leader election" pattern for Pods in Kubernetes?
 
