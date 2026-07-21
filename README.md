@@ -2114,7 +2114,7 @@ spec:
 
 **Taints and Tolerations:**
 
-- **Taints:**  Labels applied to nodes to mark them as undesirable for certain Pods.
+- **Taints:**  Node properties (in `key=value:effect` form, distinct from labels) that repel Pods unless the Pods tolerate them.
 - **Tolerations:**  Properties added to Pods that allow them to tolerate node taints.
 
 **Use Cases:**
@@ -2480,7 +2480,7 @@ spec:
 
 **EndpointSlice:**
 
-- A newer Kubernetes object (introduced in Kubernetes 1.17) that represents a subset of endpoints (IP addresses and ports) for a Service.
+- A newer Kubernetes object (beta in 1.17, GA in 1.21 and now the default) that represents a subset of endpoints (IP addresses and ports) for a Service.
 - EndpointSlices distribute the endpoint information, improving scalability and performance, especially in large clusters.
 
 **Purpose:**
@@ -2609,8 +2609,8 @@ spec:
   - **`preferredDuringSchedulingIgnoredDuringExecution`:**  (Soft Affinity) The scheduler tries to schedule the Pod on a matching node but may schedule it on a non-matching node if no suitable matches are available.
 
 - **Pod Affinity and Anti-affinity:**
-  - **`podAffinity`:**  (Co-locate Pods) Prefers or requires Pods to be scheduled on the same node or in the same zone as other Pods that match certain labels.
-  - **`podAntiAffinity`:** (Separate Pods)  Prefers or requires Pods to be scheduled on different nodes or zones from other Pods that match certain labels.
+  - **`podAffinity`:**  (Co-locate Pods) Prefers or requires Pods to be scheduled in the same topology domain (node, zone, region, or any custom `topologyKey`) as other Pods that match certain labels.
+  - **`podAntiAffinity`:** (Separate Pods)  Prefers or requires Pods to be scheduled in different topology domains from other Pods that match certain labels.
 
 **Documentation:** [https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
 
@@ -2698,7 +2698,7 @@ metadata:
   name: my-pod
 spec:
   hostname: my-custom-hostname
-  subdomain: my-app.default.svc.cluster.local # Optional subdomain 
+  subdomain: my-app # Optional; a single DNS label - the cluster domain suffix is added automatically
   containers:
   - name: my-container
     image: nginx
@@ -2999,7 +2999,7 @@ spec:
 
 **Functionality:**
 
-1. **Watch for Changes:** kube-proxy watches the Kubernetes API server for changes to Services and Endpoints.
+1. **Watch for Changes:** kube-proxy watches the Kubernetes API server for changes to Services and EndpointSlices (the primary data source for proxying since EndpointSlice went GA in 1.21).
 2. **Update Network Rules:**  Based on changes, kube-proxy updates iptables/ipvs rules on the node to reflect the correct routing information.
 3. **Traffic Forwarding:**  Network traffic is forwarded according to the configured rules.
 
