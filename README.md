@@ -3143,8 +3143,8 @@ Use the `dnsPolicy` field in your Pod specification to control how DNS settings 
 
 **DNS Policy Options:**
 
-- **`Default`:**  (Default behavior) Inherits DNS settings from the node where the Pod is scheduled.
-- **`ClusterFirst`:** Uses the cluster's internal DNS service (typically `kube-dns` or `CoreDNS`).
+- **`ClusterFirst` (default):** Uses the cluster's internal DNS service (typically `kube-dns` or `CoreDNS`).
+- **`Default`:** Inherits DNS settings from the node where the Pod is scheduled (the host's `/etc/resolv.conf`).
 - **`ClusterFirstWithHostNet`:**  Similar to `ClusterFirst` but also includes host's `/etc/resolv.conf` if the Pod uses `hostNetwork: true`.
 - **`None`:** Ignores Kubernetes-provided DNS settings and uses the `dnsConfig` section in the Pod spec to define custom DNS.
 
@@ -3280,10 +3280,10 @@ kind: Pod
 metadata:
   name: my-pod
 spec:
+  restartPolicy: OnFailure # Pod-level field: Always (default), OnFailure, or Never
   containers:
   - name: my-container
     image: my-image
-    restartPolicy: OnFailure # Only restart on errors 
 ```
 
 **Documentation:** [https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy)
@@ -3326,7 +3326,7 @@ spec:
 ```
 * * * * *
 | | | | |
-| | | | ----- Day of week (0 - 7) (Sunday=0 or 7)
+| | | | ----- Day of week (0 - 6) (Sunday=0)
 | | | ------- Month (1 - 12)
 | | --------- Day of month (1 - 31)
 | ----------- Hour (0 - 23)
